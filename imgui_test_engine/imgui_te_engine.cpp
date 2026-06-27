@@ -849,7 +849,9 @@ static void ImGuiTestEngine_PreNewFrame(ImGuiTestEngine* engine, ImGuiContext* u
     engine->PerfDeltaTime100.AddSample(g.IO.DeltaTime);
     engine->PerfDeltaTime500.AddSample(g.IO.DeltaTime);
 
-    if (!ImGuiTestEngine_IsTestQueueEmpty(engine) && !engine->Abort)
+    // [EASE-SDK PATCH] gate the host-ESC abort behind ConfigHostEscAbort (re-apply after a submodule bump). EaseCore's ServerMCP
+    // clears ConfigHostEscAbort while it drives the GUI so an accidental ESC cannot cancel an in-flight remote command.
+    if (engine->IO.ConfigHostEscAbort && !ImGuiTestEngine_IsTestQueueEmpty(engine) && !engine->Abort)
     {
         // Abort testing by holding ESC
         // When running GuiFunc only main_io == simulated_io we test for a long hold.

@@ -302,6 +302,11 @@ struct IMGUI_API ImGuiTestEngineIO
     float                       ConfigWatchdogKillTest = 60.0f;     // Attempt to stop running a test when exceeding this time (in second)
     float                       ConfigWatchdogKillApp = FLT_MAX;    // Stop application when exceeding this time (in second)
 
+    // Options: Abort. [EASE-SDK ADDITION] -- not part of upstream imgui_test_engine; re-apply after a submodule bump.
+    // When false, holding the host ESC key no longer aborts the running test (see ImGuiTestEngine_ShowTestWindowsAbortByEsc usage
+    // in imgui_te_engine.cpp). EaseCore's ServerMCP clears this while it is driving the GUI so a command cannot be cancelled by accident.
+    bool                        ConfigHostEscAbort = true;          // Allow the user to abort the running test by holding the host ESC key
+
     // Options: Export
     // While you can manually call ImGuiTestEngine_Export(), registering filename/format here ensure the crash handler will always export if application crash.
     const char*                 ExportResultsFilename = nullptr;
